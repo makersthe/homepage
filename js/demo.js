@@ -4,7 +4,7 @@
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Copyright 2018, Codrops
  * http://www.codrops.com
  */
@@ -37,14 +37,14 @@
     // Some random chars.
     const chars = ['$','%','#','&','=','*','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','.',':',',','^'];
     const charsTotal = chars.length;
-    
+
     // Randomize letters function. Used when navigating the slideshow to switch the curretn slide´s texts.
     const randomizeLetters = (letters) => {
         return new Promise((resolve, reject) => {
             const lettersTotal = letters.length;
             let cnt = 0;
 
-            letters.forEach((letter, pos) => { 
+            letters.forEach((letter, pos) => {
                 let loopTimeout;
                 const loop = () => {
                     letter.innerHTML = chars[getRandomInt(0,charsTotal-1)];
@@ -70,7 +70,7 @@
         return new Promise((resolve, reject) => {
             const lettersTotal = letters.length;
             let cnt = 0;
-            
+
             letters.forEach((letter, pos) => {
                 setTimeout(() => {
                     letter.style.opacity = 0;
@@ -82,7 +82,7 @@
             });
         });
     }
-    
+
     // The Slide class.
     class Slide {
         constructor(el) {
@@ -98,7 +98,7 @@
                 number: this.DOM.el.querySelector('.slide__number'),
                 side: this.DOM.el.querySelector('.slide__side'),
             };
-            // Split the title and side texts into spans, one per letter. Sort these so we can later animate then with the 
+            // Split the title and side texts into spans, one per letter. Sort these so we can later animate then with the
             // randomizeLetters or disassembleLetters functions when navigating and showing the content.
             charming(this.DOM.texts.title);
             charming(this.DOM.texts.side);
@@ -106,9 +106,9 @@
             this.DOM.sideLetters = Array.from(this.DOM.texts.side.querySelectorAll('span')).sort(() => 0.5 - Math.random());
             this.DOM.titleLetters.forEach(letter => letter.dataset.initial = letter.innerHTML);
             this.DOM.sideLetters.forEach(letter => letter.dataset.initial = letter.innerHTML);
-            // Calculate the sizes of the image wrap. 
+            // Calculate the sizes of the image wrap.
             this.calcSizes();
-            // And also the transforms needed per position. 
+            // And also the transforms needed per position.
             // We have 5 different possible positions for a slide: center, bottom right, top left and outside the viewport (top left or bottom right).
             this.calcTransforms();
             // Init/Bind events.
@@ -190,16 +190,16 @@
             const mousepos = getMousePos(ev);
             // Document scrolls.
             const docScrolls = {
-                left : document.body.scrollLeft + document.documentElement.scrollLeft, 
+                left : document.body.scrollLeft + document.documentElement.scrollLeft,
                 top : document.body.scrollTop + document.documentElement.scrollTop
             };
             const bounds = this.DOM.imgWrap.getBoundingClientRect();;
             // Mouse position relative to the main element (this.DOM.el).
-            const relmousepos = { 
-                x : mousepos.x - bounds.left - docScrolls.left, 
-                y : mousepos.y - bounds.top - docScrolls.top 
+            const relmousepos = {
+                x : mousepos.x - bounds.left - docScrolls.left,
+                y : mousepos.y - bounds.top - docScrolls.top
             };
-            
+
             // Move the element from -20 to 20 pixels in both x and y axis.
             // Rotate the element from -15 to 15 degrees in both x and y axis.
             let t = {x:[-20,20],y:[-20,20]},
@@ -223,20 +223,20 @@
                 y: transforms.translation.y,
                 rotationX: transforms.rotation.x,
                 rotationY: transforms.rotation.y
-            }); 
+            });
 
             // Move the texts wrap.
             TweenMax.to(this.DOM.texts.wrap, 1.5, {
                 ease: 'Power1.easeOut',
                 x: -1*transforms.translation.x,
                 y: -1*transforms.translation.y
-            }); 
+            });
         }
         // Positions one slide (left, right or current) in the viewport.
         position(pos) {
             TweenMax.set(this.DOM.imgWrap, {
-                x: this.transforms[pos].x, 
-                y: this.transforms[pos].y, 
+                x: this.transforms[pos].x,
+                y: this.transforms[pos].y,
                 rotationX: 0,
                 rotationY: 0,
                 opacity: 1,
@@ -317,7 +317,7 @@
                     onStart: settings.from !== undefined ? () => TweenMax.set(this.DOM.imgWrap, {opacity: 1}) : null,
                     onComplete: resolve
                 });
-                
+
                 // Reset image scale when showing the content of the current slide.
                 if ( settings.resetImageScale ) {
                     TweenMax.to(this.DOM.img, .8, {
@@ -343,14 +343,14 @@
             TweenMax.set(this.DOM.texts.wrap, {opacity: 1});
             TweenMax.set(this.DOM.texts.side, {opacity: 1});
 
-            if ( animation ) { 
+            if ( animation ) {
                 randomizeLetters(this.DOM.titleLetters);
                 randomizeLetters(this.DOM.sideLetters);
                 TweenMax.to(this.DOM.texts.number, 0.6, {
                     ease: Elastic.easeOut.config(1,0.5),
                     startAt: {x: '-10%', opacity: 0},
                     x: '0%',
-                    opacity: 1 
+                    opacity: 1
                 });
             }
         }
@@ -409,7 +409,7 @@
             this.contents = [];
             Array.from(document.querySelectorAll('.content > .content__item')).forEach(contentEl => this.contents.push(new Content(contentEl)));
 
-            // Set the current/next/previous slides. 
+            // Set the current/next/previous slides.
             this.render();
             this.currentSlide.showTexts(false);
             // Init/Bind events.
@@ -530,29 +530,29 @@
             this.isAnimating = true;
             allowTilt = false;
 
-            const upcomingPos = direction === 'next' ? 
+            const upcomingPos = direction === 'next' ?
                     this.current < this.slidesTotal-2 ? this.current+2 : Math.abs(this.slidesTotal-2-this.current):
                     this.current >= 2 ? this.current-2 : Math.abs(this.slidesTotal-2+this.current);
-            
+
             this.upcomingSlide = this.slides[upcomingPos];
 
             // Update current.
-            this.current = direction === 'next' ? 
+            this.current = direction === 'next' ?
                     this.current < this.slidesTotal-1 ? this.current+1 : 0 :
                     this.current > 0 ? this.current-1 : this.slidesTotal-1;
-            
+
             // Move slides (the previous, current, next and upcoming slide).
             this.prevSlide.moveToPosition({position: direction === 'next' ? -2 : 0, delay: direction === 'next' ? 0 : 0.14}).then(() => {
                 if ( direction === 'next' ) {
                     this.prevSlide.hide();
                 }
             });
-            
+
             this.currentSlide.moveToPosition({position: direction === 'next' ? -1 : 1, delay: 0.07 });
             this.currentSlide.hideTexts();
-            
+
             this.bounceDeco(direction, 0.07);
-            
+
             this.nextSlide.moveToPosition({position: direction === 'next' ? 0 : 2, delay: direction === 'next' ? 0.14 : 0 }).then(() => {
                 if ( direction === 'prev' ) {
                     this.nextSlide.hide();
@@ -565,7 +565,7 @@
             else {
                 this.prevSlide.showTexts();
             }
-            
+
             this.upcomingSlide.moveToPosition({position: direction === 'next' ? 1 : -1, from: direction === 'next' ? 2 : -2, delay: 0.21 }).then(() => {
                 // Reset classes.
                 [this.nextSlide,this.currentSlide,this.prevSlide].forEach(slide => slide.reset());
@@ -586,7 +586,7 @@
 
     // Init slideshow.
     const slideshow = new Slideshow(document.querySelector('.slideshow'));
-    
+
     // Preload all the images in the page..
     const loader = document.querySelector('.loader');
     imagesLoaded(document.querySelectorAll('.slide__img'), {background: true}, () => document.body.classList.remove('loading'));
