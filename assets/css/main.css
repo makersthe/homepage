@@ -4086,6 +4086,9 @@
 					font-size: 1.5em;
 				}
 
+				#banner .banner-image {
+					width: 100%;
+				}
 		}
 
 /* Main */
