@@ -4062,8 +4062,9 @@
 					font-size: 1.5em;
 				}
 				
-				#banner .banner-image {
-					width: 100%;
+				#banner .banner-image img{
+					max-width: 100%;
+					height: auto;
 				}
 
 				#banner p {
@@ -4086,8 +4087,9 @@
 					font-size: 1.5em;
 				}
 
-				#banner .banner-image {
-					width: 100%;
+				#banner .banner-image img{
+					max-width: 100%;
+					height: auto;
 				}
 		}
 
