@@ -4030,6 +4030,11 @@
 				padding: 11em 0 9em 0;
 			}
 
+			#banner .banner-image img{
+				max-width: 30%;
+				height: auto;
+			}
+
 		}
 
 		@media screen and (max-width: 1280px) {
